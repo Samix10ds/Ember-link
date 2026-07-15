@@ -1,0 +1,19 @@
+# Configurazione Fly.io per il bot Discord
+# Non toccare niente a meno che tu non sappia cosa fai
+
+app = "ember-link-bot"
+primary_region = "fra"  # Frankfurt — il più vicino all'Italia
+
+[build]
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = false   # IMPORTANTE: non andare in sleep
+  auto_start_machines = true
+  min_machines_running = 1     # sempre almeno 1 macchina accesa
+
+[[vm]]
+  memory = "256mb"
+  cpu_kind = "shared"
+  cpus = 1
