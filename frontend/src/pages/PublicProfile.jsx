@@ -56,10 +56,12 @@ export default function PublicProfile() {
   const theme = (THEMES[themeKey] || THEMES.dark).profile;
 
   // Se l'utente ha impostato colori custom, sovrascrivono il tema
-  const accent = profile.accent_color || theme.accent;
-  const bgStyle = profile.background_url
-    ? `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url(${profile.background_url}) center/cover fixed`
-    : profile.background_color || theme.gradient;
+const accent = profile.accent_color && profile.accent_color !== '#e8a33d' 
+  ? profile.accent_color : theme.accent;
+const bgStyle = profile.background_url
+  ? `...`
+  : profile.background_color && profile.background_color !== '#09090b'
+  ? profile.background_color : theme.gradient;;
 
   return (
     <div className="min-h-screen text-white relative overflow-hidden transition-all duration-700"
