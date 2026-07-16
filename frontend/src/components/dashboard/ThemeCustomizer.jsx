@@ -22,10 +22,12 @@ export default function ThemeCustomizer({ profile, onUpdate, theme: d }) {
     e.preventDefault();
     setSaving(true);
     await supabase.from('profiles').update({
-      display_name: displayName, bio,
-      accent_color: accentColor, background_color: bgColor,
-      font_family: font, layout_style: layout, theme_id: selectedTheme,
-    }).eq('id', profile.id);
+  display_name: displayName, bio,
+  accent_color: accentColor,
+  background_color: bgColor,
+  font_family: font, layout_style: layout, theme_id: selectedTheme,
+  // Se l'utente ha cambiato tema, azzera i colori custom
+}).eq('id', profile.id);
     setSaving(false);
     onUpdate();
   }
