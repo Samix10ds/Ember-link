@@ -7,7 +7,7 @@ const MODES = [
   { id: 'off', label: 'Disattiva', desc: 'Nessun badge sul profilo' },
 ];
 
-export default function RPCSettings({ profile, onUpdate }) {
+export default function RPCSettings({ profile, theme: d, onUpdate }) {
   const [discordId, setDiscordId] = useState(profile.discord_id || '');
   const [mode, setMode] = useState('auto');
   const [customText, setCustomText] = useState('');

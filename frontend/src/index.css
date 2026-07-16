@@ -2,11 +2,79 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background: #09090b;
-  font-family: 'Inter', sans-serif;
+:root {
+  --bg: #09090b;
+  --surface: #16161a;
+  --surface-hover: #1e1e23;
+  --border: #27272e;
+  --text: #ffffff;
+  --text-muted: #71717a;
+  --accent: #e8a33d;
+  --gradient: linear-gradient(135deg, #09090b 0%, #16161a 100%);
 }
 
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #09090b; }
-::-webkit-scrollbar-thumb { background: #27272e; border-radius: 4px; }
+* { box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* Animazioni globali */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px var(--accent); }
+  50%       { box-shadow: 0 0 24px var(--accent), 0 0 48px var(--accent); }
+}
+@keyframes gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
+}
+@keyframes slide-in {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.animate-fade-up   { animation: fadeUp 0.4s ease forwards; }
+.animate-fade-in   { animation: fadeIn 0.3s ease forwards; }
+.animate-float     { animation: float 3s ease-in-out infinite; }
+.animate-slide-in  { animation: slide-in 0.3s ease forwards; }
+.animate-gradient  { background-size: 200% 200%; animation: gradient-shift 6s ease infinite; }
+
+/* Stagger per i link */
+.stagger-1 { animation-delay: 0.05s; opacity: 0; }
+.stagger-2 { animation-delay: 0.10s; opacity: 0; }
+.stagger-3 { animation-delay: 0.15s; opacity: 0; }
+.stagger-4 { animation-delay: 0.20s; opacity: 0; }
+.stagger-5 { animation-delay: 0.25s; opacity: 0; }
+.stagger-6 { animation-delay: 0.30s; opacity: 0; }
+.stagger-7 { animation-delay: 0.35s; opacity: 0; }
+.stagger-8 { animation-delay: 0.40s; opacity: 0; }
+
+/* Glow avatar */
+.avatar-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Tab transition */
+.tab-content {
+  animation: fadeUp 0.25s ease forwards;
+}

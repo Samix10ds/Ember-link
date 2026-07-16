@@ -1,12 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 
-const STATUS_COLORS = {
-  online: 'bg-emerald-500', idle: 'bg-amber-400',
-  dnd: 'bg-red-500', offline: 'bg-zinc-500',
-};
-
-export default function RPCBadge({ discordId, userId }) {
+export default function RPCBadge({ discordId, userId, accent, theme }) {
   const [presence, setPresence] = useState(null);
   const [rpcSettings, setRpcSettings] = useState(null);
 
@@ -30,21 +25,35 @@ export default function RPCBadge({ discordId, userId }) {
   if (rpcSettings?.mode === 'off') return null;
 
   if (rpcSettings?.mode === 'custom') return (
-    <div className="mt-3 inline-flex items-center gap-2 bg-black/40 backdrop-blur px-3 py-2 rounded-full text-xs">
+    <div className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs animate-fade-in"
+      style={{
+        background: accent + '18',
+        border: `1px solid ${accent}40`,
+        color: theme.text,
+        backdropFilter: 'blur(8px)',
+      }}>
       {rpcSettings.custom_icon || '✨'} {rpcSettings.custom_text || 'Online'}
     </div>
   );
 
   if (!presence) return null;
 
+  const STATUS_COLORS = { online: '#22c55e', idle: '#f59e0b', dnd: '#ef4444', offline: '#71717a' };
   const spotify = presence.spotify;
   const game = presence.activities?.find(a => a.type === 0);
 
   return (
-    <div className="mt-3 inline-flex items-center gap-2 bg-black/40 backdrop-blur px-3 py-2 rounded-full text-xs">
-      <span className={`w-2 h-2 rounded-full ${STATUS_COLORS[presence.status] || 'bg-zinc-500'}`} />
+    <div className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs animate-fade-in"
+      style={{
+        background: accent + '18',
+        border: `1px solid ${accent}40`,
+        color: theme.text,
+        backdropFilter: 'blur(8px)',
+      }}>
+      <span className="w-2 h-2 rounded-full flex-shrink-0"
+        style={{ background: STATUS_COLORS[presence.status] || '#71717a', boxShadow: `0 0 6px ${STATUS_COLORS[presence.status]}` }} />
       {spotify ? `🎧 ${spotify.song} — ${spotify.artist}`
-        : game ? `🎮 In gioco: ${game.name}`
+        : game ? `🎮 ${game.name}`
         : <span className="capitalize">{presence.status}</span>}
     </div>
   );

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 
-export default function MusicSettings({ profile }) {
+export default function MusicSettings({ profile, theme: d }) {
   const [settings, setSettings] = useState(null);
   const [externalUrl, setExternalUrl] = useState('');
   const [uploading, setUploading] = useState(false);

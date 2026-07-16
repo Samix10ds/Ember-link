@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { supabase } from '../../lib/supabase';
 
-export default function PremiumPanel({ profile, onUpdate }) {
+export default function PremiumPanel({ profile, theme: d, onUpdate }) {
   const [code, setCode] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
