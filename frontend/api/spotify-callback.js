@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     redirect_uri: `${process.env.NEXT_PUBLIC_SITE_URL}/api/spotify-callback`,
   });
 
-  const authHeader = Buffer.from(`${process.env.VITE_SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64');
+  const authHeader = Buffer.from(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64');
 
   const tokenRes = await fetch('https://accounts.spotify.com/api/token', {
     method: 'POST',
