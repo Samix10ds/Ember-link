@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { supabase } from '../../lib/supabase';
-import { THEME_LIST } from '../../lib/themes';
+import { THEME_LIST, THEMES } from '../../lib/themes';
+import { useTheme } from '../../context/ThemeContext';
 
 const FONTS = ['Inter', 'Poppins', 'Roboto Mono', 'Playfair Display'];
 const LAYOUTS = [{ id: 'stacked', label: '≡ Lista' }, { id: 'grid', label: '⊞ Griglia' }];
@@ -22,12 +23,10 @@ export default function ThemeCustomizer({ profile, onUpdate, theme: d }) {
     e.preventDefault();
     setSaving(true);
     await supabase.from('profiles').update({
-  display_name: displayName, bio,
-  accent_color: accentColor,
-  background_color: bgColor,
-  font_family: font, layout_style: layout, theme_id: selectedTheme,
-  // Se l'utente ha cambiato tema, azzera i colori custom
-}).eq('id', profile.id);
+      display_name: displayName, bio,
+      accent_color: accentColor, background_color: bgColor,
+      font_family: font, layout_style: layout, theme_id: selectedTheme,
+    }).eq('id', profile.id);
     setSaving(false);
     onUpdate();
   }
@@ -58,9 +57,30 @@ export default function ThemeCustomizer({ profile, onUpdate, theme: d }) {
     outline: 'none',
   };
 
+  const { themeId, setThemeId } = useTheme();
+
   return (
     <div>
       <h2 className="font-display text-xl font-bold mb-6" style={{ color: d.text }}>🎨 Personalizza profilo</h2>
+
+      {/* Tema dashboard */}
+      <div className="mb-6 p-4 rounded-xl" style={{ background: d.surface, border: `1px solid ${d.border}` }}>
+        <p className="text-sm font-medium mb-3" style={{ color: d.text }}>Tema dashboard</p>
+        <div className="grid grid-cols-3 gap-2">
+          {THEME_LIST.map(t => (
+            <button key={t.id} onClick={() => setThemeId(t.id)}
+              className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200"
+              style={{
+                background: themeId === t.id ? t.dashboard.accent + '22' : d.surfaceHover,
+                border: `1.5px solid ${themeId === t.id ? t.dashboard.accent : d.border}`,
+                color: themeId === t.id ? t.dashboard.accent : d.textMuted,
+                transform: themeId === t.id ? 'scale(1.04)' : 'scale(1)',
+              }}>
+              {t.emoji} {t.name}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {error && (
         <div className="mb-4 px-4 py-3 rounded-lg text-sm"

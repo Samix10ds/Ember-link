@@ -8,8 +8,6 @@ import ThemeCustomizer from '../components/dashboard/ThemeCustomizer';
 import MusicSettings from '../components/dashboard/MusicSettings';
 import RPCSettings from '../components/dashboard/RPCSettings';
 import PremiumPanel from '../components/dashboard/PremiumPanel';
-import ThemePicker from '../components/dashboard/ThemePicker';
-
 const TABS = [
   { id: 'links',   label: 'Link',        emoji: '🔗' },
   { id: 'theme',   label: 'Tema',        emoji: '🎨' },
@@ -68,7 +66,6 @@ export default function Dashboard() {
         <nav className="md:w-60 border-b md:border-b-0 md:border-r flex md:flex-col overflow-x-auto md:overflow-visible md:sticky md:top-[65px] md:h-[calc(100vh-65px)]"
           style={{ borderColor: d.border, background: d.surface + '88' }}>
           <div className="md:p-3 flex md:flex-col gap-1 w-full">
-            <ThemePicker />
             {TABS.map((tab, i) => (
               <button key={tab.id} onClick={() => setActiveTab(tab.id)}
                 className="flex items-center gap-3 px-4 py-3 rounded-xl text-left whitespace-nowrap transition-all duration-200 font-medium text-sm"
