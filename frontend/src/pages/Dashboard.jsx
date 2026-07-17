@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { supabase } from '../lib/supabase';
+import { isAdmin } from '../lib/roles';
 import LinksManager from '../components/dashboard/LinksManager';
 import ThemeCustomizer from '../components/dashboard/ThemeCustomizer';
 import MusicSettings from '../components/dashboard/MusicSettings';
 import RPCSettings from '../components/dashboard/RPCSettings';
 import PremiumPanel from '../components/dashboard/PremiumPanel';
+
 const TABS = [
   { id: 'links',   label: 'Link',        emoji: '🔗' },
   { id: 'theme',   label: 'Tema',        emoji: '🎨' },
@@ -30,39 +32,43 @@ export default function Dashboard() {
 
   if (!profile) return (
     <div className="min-h-screen flex items-center justify-center" style={{ background: d.bg }}>
-      <div className="flex flex-col items-center gap-3">
-        <div className="w-8 h-8 rounded-full border-2 animate-spin"
-          style={{ borderColor: d.accent, borderTopColor: 'transparent' }} />
-        <p style={{ color: d.textMuted }} className="text-sm">Caricamento profilo...</p>
-      </div>
+      <div className="w-8 h-8 rounded-full border-2 animate-spin"
+        style={{ borderColor: d.accent, borderTopColor: 'transparent' }} />
     </div>
   );
 
   return (
     <div className="min-h-screen transition-all duration-500" style={{ background: d.gradient }}>
-      {/* Header */}
       <header className="px-6 py-4 flex items-center justify-between border-b"
         style={{ borderColor: d.border, background: d.surface + 'cc', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 10 }}>
-        <div className="animate-slide-in">
+        <div>
           <h1 className="font-display font-bold text-lg flex items-center gap-2">
             <span className="animate-float inline-block">🔥</span>
             <span style={{ color: d.text }}>Ember Link</span>
           </h1>
           <a href={`/${profile.username}`} target="_blank" rel="noreferrer"
-            className="text-sm font-mono hover:underline transition-opacity hover:opacity-70"
+            className="text-sm font-mono hover:underline"
             style={{ color: d.accent }}>
             /{profile.username} ↗
           </a>
         </div>
-        <button onClick={handleLogout}
-          className="text-sm px-3 py-1.5 rounded-lg transition-all hover:opacity-70"
-          style={{ color: d.textMuted }}>
-          Esci
-        </button>
+        <div className="flex items-center gap-3">
+          {isAdmin(profile) && (
+            <button onClick={() => navigate('/admin')}
+              className="text-sm px-3 py-1.5 rounded-lg font-medium transition-all"
+              style={{ background: d.accent + '22', border: `1px solid ${d.accent}44`, color: d.accent }}>
+              {profile.role === 'owner' ? '👑' : '⚡'} Admin
+            </button>
+          )}
+          <button onClick={handleLogout}
+            className="text-sm px-3 py-1.5 rounded-lg transition-all hover:opacity-70"
+            style={{ color: d.textMuted }}>
+            Esci
+          </button>
+        </div>
       </header>
 
       <div className="flex flex-col md:flex-row">
-        {/* Sidebar nav */}
         <nav className="md:w-60 border-b md:border-b-0 md:border-r flex md:flex-col overflow-x-auto md:overflow-visible md:sticky md:top-[65px] md:h-[calc(100vh-65px)]"
           style={{ borderColor: d.border, background: d.surface + '88' }}>
           <div className="md:p-3 flex md:flex-col gap-1 w-full">
@@ -82,7 +88,6 @@ export default function Dashboard() {
           </div>
         </nav>
 
-        {/* Main content */}
         <main className="flex-1 p-6 max-w-2xl" key={activeTab}>
           <div className="tab-content">
             {activeTab === 'links'   && <LinksManager profile={profile} theme={d} />}

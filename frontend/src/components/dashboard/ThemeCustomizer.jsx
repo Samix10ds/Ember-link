@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { THEME_LIST, THEMES } from '../../lib/themes';
 import { useTheme } from '../../context/ThemeContext';
+import BadgeEditor from '../badges/BadgeEditor';
 
 const FONTS = ['Inter', 'Poppins', 'Roboto Mono', 'Playfair Display'];
 const LAYOUTS = [{ id: 'stacked', label: '≡ Lista' }, { id: 'grid', label: '⊞ Griglia' }];
@@ -182,6 +183,10 @@ export default function ThemeCustomizer({ profile, onUpdate, theme: d }) {
               </button>
             ))}
           </div>
+        </div>
+
+        <div className="p-4 rounded-xl" style={{ background: d.surface, border: `1px solid ${d.border}` }}>
+          <BadgeEditor theme={d} />
         </div>
 
         <button type="submit" disabled={saving}

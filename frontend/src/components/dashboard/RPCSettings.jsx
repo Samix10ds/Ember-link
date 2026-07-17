@@ -37,6 +37,11 @@ export default function RPCSettings({ profile, theme: d, onUpdate }) {
     <div>
       <h2 className="font-display text-xl font-bold mb-4">RPC Discord</h2>
 
+      <div className="mb-4 px-4 py-3 rounded-xl flex items-center gap-3 text-sm font-medium"
+        style={{ background: '#854d0e22', border: '1.5px solid #ca8a04', color: '#fbbf24' }}>
+        🚧 In manutenzione — il bot Discord non è ancora attivo. Usa la modalità personalizzata nel frattempo.
+      </div>
+
       <div className="bg-surface p-4 rounded-xl border border-line mb-6 text-sm text-zinc-400 space-y-2">
         <p className="text-white font-medium">Come funziona</p>
         <p>Il bot (su Fly.io) sta connesso 24/7 a Discord. Quando cambi gioco/canzone, il bot lo scrive su Supabase e il tuo profilo si aggiorna in tempo reale senza ricaricare la pagina.</p>

@@ -1,52 +1,40 @@
 import { useState } from 'react';
-import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 
-export default function QRCodeButton({ username, accent, theme, compact }) {
+export default function QRCodeButton({ username, accent, theme }) {
   const [open, setOpen] = useState(false);
   const url = `${window.location.origin}/${username}`;
-
-  const modal = open && createPortal(
-    <div onClick={() => setOpen(false)}
-      style={{
-        position: 'fixed', inset: 0, zIndex: 99999,
-        background: 'rgba(0,0,0,0.8)',
-        backdropFilter: 'blur(8px)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: 20,
-      }}>
-      <div onClick={e => e.stopPropagation()}
-        style={{
-          background: '#fff', borderRadius: 16,
-          padding: 24, textAlign: 'center',
-          width: 260,
-        }}>
-        <QRCodeSVG value={url} size={200} fgColor="#111" bgColor="#fff" />
-        <p style={{ color: '#333', fontSize: 11, marginTop: 10, fontFamily: 'monospace', wordBreak: 'break-all' }}>{url}</p>
-        <button onClick={() => setOpen(false)}
-          style={{ marginTop: 10, fontSize: 12, color: '#999', cursor: 'pointer', background: 'none', border: 'none' }}>
-          chiudi
-        </button>
-      </div>
-    </div>,
-    document.body
-  );
 
   return (
     <>
       <button onClick={() => setOpen(true)}
+        className="px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200"
         style={{
           background: accent + '18',
           border: `1px solid ${accent}40`,
           color: theme.text,
-          borderRadius: compact ? 10 : 999,
-          padding: compact ? '6px 10px' : '10px 20px',
-          fontSize: 13, fontWeight: 500, cursor: 'pointer',
-          whiteSpace: 'nowrap',
-        }}>
-        📱 QR
+          backdropFilter: 'blur(8px)',
+        }}
+        onMouseEnter={e => { e.target.style.background = accent + '30'; e.target.style.transform = 'scale(1.04)'; }}
+        onMouseLeave={e => { e.target.style.background = accent + '18'; e.target.style.transform = 'scale(1)'; }}
+      >
+        📱 QR Code
       </button>
-      {modal}
+
+      {open && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 animate-fade-in px-4"
+          style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(8px)' }}
+          onClick={() => setOpen(false)}>
+          <div className="p-6 rounded-2xl text-center animate-fade-up flex flex-col items-center"
+            style={{ background: '#fff', width: 260 }}
+            onClick={e => e.stopPropagation()}>
+            <QRCodeSVG value={url} size={200} fgColor="#111" bgColor="#fff" />
+            <p className="text-black text-xs mt-3 font-mono break-all">{url}</p>
+            <button onClick={() => setOpen(false)}
+              className="mt-3 text-xs text-zinc-400 hover:text-zinc-600">chiudi</button>
+          </div>
+        </div>
+      )}
     </>
   );
 }

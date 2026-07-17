@@ -5,15 +5,13 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import PublicProfile from './pages/PublicProfile';
+import AdminPanel from './pages/admin/AdminPanel';
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
   if (loading) return (
-    <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg)' }}>
-      <div className="flex flex-col items-center gap-3">
-        <div className="w-8 h-8 rounded-full border-2 border-t-transparent animate-spin" style={{ borderColor: 'var(--accent)', borderTopColor: 'transparent' }} />
-        <p style={{ color: 'var(--text-muted)' }} className="text-sm">Caricamento...</p>
-      </div>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#09090b' }}>
+      <div style={{ width: 28, height: 28, borderRadius: '50%', border: '2px solid #e8a33d', borderTopColor: 'transparent', animation: 'spin 0.8s linear infinite' }} />
     </div>
   );
   if (!user) return <Navigate to="/login" replace />;
@@ -26,6 +24,7 @@ function AppRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/dashboard/*" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+      <Route path="/admin" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
       <Route path="/:username" element={<PublicProfile />} />
       <Route path="/" element={<Navigate to="/login" replace />} />
     </Routes>
