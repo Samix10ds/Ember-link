@@ -22,14 +22,14 @@ export default function QRCodeButton({ username, accent, theme }) {
       </button>
 
       {open && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 animate-fade-in"
-          style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}
+        <div className="fixed inset-0 flex items-center justify-center z-50 animate-fade-in px-4"
+          style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(8px)' }}
           onClick={() => setOpen(false)}>
-          <div className="p-6 rounded-2xl text-center animate-fade-up"
-            style={{ background: '#fff' }}
+          <div className="p-6 rounded-2xl text-center animate-fade-up flex flex-col items-center"
+            style={{ background: '#fff', width: 260 }}
             onClick={e => e.stopPropagation()}>
-            <QRCodeSVG value={url} size={200} fgColor="#111" />
-            <p className="text-black text-xs mt-3 font-mono">{url}</p>
+            <QRCodeSVG value={url} size={200} fgColor="#111" bgColor="#fff" />
+            <p className="text-black text-xs mt-3 font-mono break-all">{url}</p>
             <button onClick={() => setOpen(false)}
               className="mt-3 text-xs text-zinc-400 hover:text-zinc-600">chiudi</button>
           </div>
